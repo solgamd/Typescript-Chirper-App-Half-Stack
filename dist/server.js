@@ -86,14 +86,72 @@
 /************************************************************************/
 /******/ ({
 
+/***/ "./src/server/routes/chirps.ts":
+/*!*************************************!*\
+  !*** ./src/server/routes/chirps.ts ***!
+  \*************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+eval("\nObject.defineProperty(exports, \"__esModule\", { value: true });\nvar express_1 = __webpack_require__(/*! express */ \"express\");\nvar chirpstore_1 = __webpack_require__(/*! ../utils/chirpstore */ \"./src/server/utils/chirpstore.js\");\nvar router = express_1.Router();\n// router.get('/:id?', (req, res) => { //REMOVE ID IF ONLY WANT THIS ROUTE TO GET ALL CHIRPS\n//     // const data = [\n//     //     {\n//     //         id: 1,\n//     //         user: \"Tolita\",\n//     //         text: \"I barf a lot!\"\n//     //     },\n//     //     {\n//     //         id: 2,\n//     //         user: \"Mishkita\",\n//     //         text: \"I eat twice as much food as Toli!\"\n//     //     }\n//     // ]\n//     // res.json(data);\n//     let id = req.params.id;\n//     if (id) {\n//         res.json(chirpstore.GetChirp(id));\n//     } else {\n//         let chirps = chirpstore.GetChirps();\n//         let data = Object['keys'](chirps).map(key => {\n//             return {\n//                 id: key,\n//                 user: chirps[key].user,\n//                 text: chirps[key].text\n//             }\n//         });\n//         // data.pop();\n//         res.json(data);\n//     }\n// });\nrouter.get('/', function (req, res) {\n    var chirps = chirpstore_1.default.GetChirps();\n    var data = Object['keys'](chirps).map(function (key) {\n        return {\n            id: key,\n            user: chirps[key].user,\n            text: chirps[key].text\n        };\n    });\n    res.json(data);\n});\nrouter.get('/:id', function (req, res) {\n    var id = req.params.id;\n    res.json(chirpstore_1.default.GetChirp(id));\n});\nrouter.post('/', function (req, res) {\n    chirpstore_1.default.CreateChirp(req.body);\n    res.sendStatus(200);\n});\nexports.default = router;\n\n\n//# sourceURL=webpack:///./src/server/routes/chirps.ts?");
+
+/***/ }),
+
+/***/ "./src/server/routes/index.ts":
+/*!************************************!*\
+  !*** ./src/server/routes/index.ts ***!
+  \************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+eval("\nObject.defineProperty(exports, \"__esModule\", { value: true });\nvar express_1 = __webpack_require__(/*! express */ \"express\");\nvar chirps_1 = __webpack_require__(/*! ./chirps */ \"./src/server/routes/chirps.ts\");\nvar router = express_1.Router();\nrouter.use('/chirps', chirps_1.default);\nexports.default = router;\n\n\n//# sourceURL=webpack:///./src/server/routes/index.ts?");
+
+/***/ }),
+
 /***/ "./src/server/server.ts":
 /*!******************************!*\
   !*** ./src/server/server.ts ***!
   \******************************/
 /*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+eval("\nObject.defineProperty(exports, \"__esModule\", { value: true });\nvar express = __webpack_require__(/*! express */ \"express\");\nvar routes_1 = __webpack_require__(/*! ./routes */ \"./src/server/routes/index.ts\");\nvar app = express();\napp.use(express.static('public'));\napp.use(express.json());\napp.use('/api', routes_1.default);\nvar port = process.env.PORT || 3000;\napp.listen(port, function () {\n    console.log(\"Server listening on port: \" + port);\n});\n\n\n//# sourceURL=webpack:///./src/server/server.ts?");
+
+/***/ }),
+
+/***/ "./src/server/utils/chirpstore.js":
+/*!****************************************!*\
+  !*** ./src/server/utils/chirpstore.js ***!
+  \****************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+eval("const fs = __webpack_require__(/*! fs */ \"fs\");\n// let chirps = { nextid: 0 };\n\n// if(fs.existsSync('chirps.json')) {\n//     chirps = JSON.parse(fs.readFileSync('chirps.json'));\n// }\n\nlet getChirps = () => {\n    return Object.assign({}, chirps); //create a copy and return it\n}\n\nlet getChirp = id => {\n    return Object.assign({}, chirps[id]); //create a copy and return it\n}\n\nlet createChirp = (chirp) => {\n    chirps[chirps.nextid++] = chirp;\n    writeChirps();\n};\n\nlet updateChirp = (id, chirp) => {\n    chirps[id] = chirp;\n    writeChirps();\n}\n\nlet deleteChirp = id => {\n    delete chirps[id];\n    writeChirps();\n}\n\nlet writeChirps = () => {\n    fs.writeFileSync('chirps.json', JSON.stringify(chirps));\n};\n\nmodule.exports = {\n    CreateChirp: createChirp,\n    DeleteChirp: deleteChirp,\n    GetChirps: getChirps,\n    GetChirp: getChirp,\n    UpdateChirp: updateChirp\n}\n\n//# sourceURL=webpack:///./src/server/utils/chirpstore.js?");
+
+/***/ }),
+
+/***/ "express":
+/*!**************************!*\
+  !*** external "express" ***!
+  \**************************/
+/*! no static exports found */
 /***/ (function(module, exports) {
 
-eval("throw new Error(\"Module build failed (from ./node_modules/ts-loader/index.js):\\nError: \\u001b[31merror while parsing tsconfig.json\\u001b[39m\\n    at Object.loader (/Users/megansolga/Source/Typescript/type-chirper/node_modules/ts-loader/dist/index.js:19:18)\");\n\n//# sourceURL=webpack:///./src/server/server.ts?");
+eval("module.exports = require(\"express\");\n\n//# sourceURL=webpack:///external_%22express%22?");
+
+/***/ }),
+
+/***/ "fs":
+/*!*********************!*\
+  !*** external "fs" ***!
+  \*********************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+eval("module.exports = require(\"fs\");\n\n//# sourceURL=webpack:///external_%22fs%22?");
 
 /***/ })
 

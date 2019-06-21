@@ -21,7 +21,7 @@ class EditChirp extends React.Component<IEditProps, IEditState> {
         try {
             let res = await fetch("/api/chirps/:id");
             let chirp = await res.json();
-            this.setState({ chirp });
+            this.setState({ chirp: chirp.id });
 
         } catch (error) {
             console.log(error);
@@ -30,7 +30,8 @@ class EditChirp extends React.Component<IEditProps, IEditState> {
     render() {
         return (
         <section className="row">
-            {this.state.chirp.map(aChirp => <ChirpCard key={aChirp.id} chirp={aChirp} />)}
+            <h1>Individual Chirp Goes Here</h1>
+            {/* {this.state.chirp.map(aChirp => <ChirpCard key={aChirp.id} chirp={aChirp} />)} */}
         </section>
       );
     }
