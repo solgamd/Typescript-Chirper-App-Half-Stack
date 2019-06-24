@@ -34,12 +34,12 @@ class AdminOps extends React.Component<IEditProps, IEditState> {
         };
     };
 
-    async updateChirp(e: React.MouseEvent<HTMLButtonElement>) {
+    async updateChirp(e: React.MouseEvent<HTMLButtonElement>) { // PUT REQUEST
         e.preventDefault();
         alert('edit button works!')
     }
 
-    async deleteChirp(e: React.MouseEvent<HTMLButtonElement>) {
+    async deleteChirp(e: React.MouseEvent<HTMLButtonElement>) { // DELETE REQUEST
         e.preventDefault();
         alert(' delete button works!')
     }
