@@ -1,6 +1,5 @@
 import * as React from 'react';
 import ChirpCard from './ChirpCard';
-import { number, string } from 'prop-types';
 
 
 interface IHomeProps { }
@@ -19,45 +18,67 @@ class Home extends React.Component<IHomeProps, IHomeState> {
 
         this.state = {  // The onClick button value should be this.state.text. How can you pass down the state correctly?
             chirps: []
+          
         }
     }
 
-    async componentWillMount() {
+    async componentDidMount() {
         try {
             let res = await fetch("/api/chirps");
-            let chirps = await res.json();
-            this.setState({ chirps });
+            let data = await res.json();
+            let chirps = Object['keys'](data).map(key => {
+                return {
+                    id: key,
+                    user: data[key].user,
+                    text: data[key].text
+                };
+            });
+            chirps.pop();
+            chirps.reverse();
+            this.setState({ chirps: data });
 
         } catch (error) {
             console.log(error);
         }
     };
-
-    postChirp() {
-        // console.log(this.state.chirpstext);
-        // let newArray = this.state.chirps;
-        // newArray.push(this.state.text)
+    
+    
+    postChirp(value) {
+        let newChirp = {
+            user: value
+            text,
+            id
+        }
         
     }
     render() {
+        let chirpFeed = this.state.chirps.map((chirp, i) => {
+            return <ChirpCard key={chirp.id} chirp={chirp} />
+        })
+
         return (
             <>
                 <section className="row justify-content-center mt-5">
                     <div className="col-md-6">
                         <div className="card border-info mb-5">
                             <div className="card-body">
-                                <h5 className="card-title">What's Chirpin'?</h5>
-                                <div className="form-group">
-                                    <textarea className="form-control" id="exampleFormControlTextarea1" rows="3" value={this.state}></textarea>
-                                    <button onClick={() => this.postChirp()} className="btn btn-primary" type="submit">Chirp It!</button>
-                                </div>
+                                <h5 className="card-title">Start Chirpin'!</h5>
+                                <form className="form-group">
+                                    <label>Username:</label>
+                                    <input className="form-control"
+                                    value={this.state.user}></input>
+                                    <label>Chirp:</label>
+                                    <input className="form-control"
+                                    value={this.state.text}></input>
+                                    <button onClick={(value) => this.postChirp(value)} className="btn btn-primary" type="submit">Chirp It!</button>
+                                </form>
                             </div>
                         </div>
                     </div>
                 </section>
 
                 <section className="row m-5">
-                    {this.state.chirps.map(chirp => <ChirpCard key={chirp.id} chirp={chirp} />)}
+                    {chirpFeed}
                 </section>
             </>
         )

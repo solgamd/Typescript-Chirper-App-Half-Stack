@@ -13,10 +13,11 @@ const router = Router();
 //     //     {
 //     //         id: 2,
 //     //         user: "Mishkita",
-//     //         text: "I eat twice as much food as Toli!"
+//     //         text: "I eat twice as much as Toli!"
 //     //     }
 //     // ]
 //     // res.json(data);
+    
 //     let id = req.params.id;
 //     if (id) {
 //         res.json(chirpstore.GetChirp(id));
@@ -37,14 +38,14 @@ const router = Router();
 
 router.get('/', (req, res) => {
     let chirps = chirpstore.GetChirps();
-    let data = Object['keys'](chirps).map(key => {
-        return {
-            id: key,
-            user: chirps[key].user,
-            text: chirps[key].text
-        }
-    });
-    res.json(data);
+    // let data = Object['keys'](chirps).map(key => {
+    //     return {
+    //         id: key,
+    //         user: chirps[key].user,
+    //         text: chirps[key].text
+    //     }
+    // });
+    res.json(chirps);
 });
 
 router.get('/:id', (req, res) => {

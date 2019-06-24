@@ -1,9 +1,9 @@
 const fs = require('fs');
-// let chirps = { nextid: 0 };
+let chirps = { nextid: 0 };
 
-// if(fs.existsSync('chirps.json')) {
-//     chirps = JSON.parse(fs.readFileSync('chirps.json'));
-// }
+if(fs.existsSync('chirps.json')) {
+    chirps = JSON.parse(fs.readFileSync('chirps.json'));
+}
 
 let getChirps = () => {
     return Object.assign({}, chirps); //create a copy and return it
