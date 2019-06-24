@@ -1,5 +1,8 @@
 {
-    "id": 0,
-    "user": "Mishka",
-    "text": "Meow"
+    "0": {
+        "user": "Mishka",
+        "text": "Meow"
+    },
+    "nextid": 1
+
 }

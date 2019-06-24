@@ -17,7 +17,7 @@ class EditChirp extends React.Component<IEditProps, IEditState> {
         this.state = { chirp: [] }
     }
 
-    async componentWillMount() {
+    async componentDidMount() {
         try {
             let res = await fetch("/api/chirps/:id");
             let chirp = await res.json();

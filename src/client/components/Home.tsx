@@ -1,5 +1,6 @@
 import * as React from 'react';
 import ChirpCard from './ChirpCard';
+import { string, number, any } from 'prop-types';
 
 
 interface IHomeProps { }
@@ -11,14 +12,14 @@ interface IHomeState {
     }[]
 }
 
-class Home extends React.Component<IHomeProps, IHomeState> {
+class Home extends React.Component<IHomeProps, IHomeState {
 
     constructor(props: IHomeProps) {
         super(props)
 
         this.state = {  // The onClick button value should be this.state.text. How can you pass down the state correctly?
             chirps: []
-          
+
         }
     }
 
@@ -41,18 +42,31 @@ class Home extends React.Component<IHomeProps, IHomeState> {
             console.log(error);
         }
     };
-    
-    
-    postChirp(value) {
-        let newChirp = {
-            user: value
-            text,
-            id
-        }
-        
+
+    async handleClick(e) {
+        e.preventDefault();
+        //     fetch("/api/chirps")
+        //     .then(res => res.json())
+        //     .then(data => {this.setState({
+
+        //     })})
+        // } catch(error) {
+        //     console.log(error);
+        // }
+        await fetch('/api/chirps', {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ id: any, user: string, text: string })
+        })
+            .then(res => res.json())
+            .then(chirps => this.setState({ chirps }));
     }
+
     render() {
-        let chirpFeed = this.state.chirps.map((chirp, i) => {
+        let chirpFeed = this.state.chirps.map((chirp, id) => {
             return <ChirpCard key={chirp.id} chirp={chirp} />
         })
 
@@ -66,11 +80,16 @@ class Home extends React.Component<IHomeProps, IHomeState> {
                                 <form className="form-group">
                                     <label>Username:</label>
                                     <input className="form-control"
-                                    value={this.state.user}></input>
+                                        value={this.state.user}>
+                                        onChange={(e: React.ChangeEvent<HTMLInputElement>) => this.setState({ user: e.target.value })}
+                                    </input>
+
                                     <label>Chirp:</label>
                                     <input className="form-control"
-                                    value={this.state.text}></input>
-                                    <button onClick={(value) => this.postChirp(value)} className="btn btn-primary" type="submit">Chirp It!</button>
+                                        value={this.state.text}>
+                                        onChange={(e: React.ChangeEvent<HTMLInputElement>) => this.setState({ text: e.target.value })}
+                                    </input>
+                                    <button onClick={(e) => this.handleClick(e)} className="btn btn-primary" type="submit">Chirp It!</button>
                                 </form>
                             </div>
                         </div>

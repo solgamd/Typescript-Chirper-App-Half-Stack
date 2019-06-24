@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import chirpstore from '../utils/chirpstore';
+import * as chirpstore from '../utils/chirpstore';
 
 const router = Router();
 
