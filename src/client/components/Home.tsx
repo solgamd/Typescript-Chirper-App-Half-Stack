@@ -1,33 +1,55 @@
 import * as React from 'react';
 import ChirpCard from './ChirpCard';
-import { string, number, any } from 'prop-types';
-
 
 interface IHomeProps { }
 interface IHomeState {
     chirps: {
-        id: number,
+        id: string,
         user: string,
         text: string
-    }[]
+    }[],
+    user: string, // for input value
+    text: string  // for input value
 }
 
-class Home extends React.Component<IHomeProps, IHomeState {
+class Home extends React.Component<IHomeProps, IHomeState> {
 
     constructor(props: IHomeProps) {
         super(props)
 
-        this.state = {  // The onClick button value should be this.state.text. How can you pass down the state correctly?
-            chirps: []
-
+        this.state = {  
+            chirps: [],
+            user: '',
+            text: ''
         }
     }
 
+    // async _getAllChirps() {
+    //     try {
+    //         let res = await fetch("/api/chirps");
+    //         let data = await res.json();        //JSon converted to JS
+    //         let chirps = Object.keys(data).map(key => {
+    //             return {
+    //                 id: key,
+    //                 user: data[key].user,
+    //                 text: data[key].text
+    //             };
+    //         });
+    //         chirps.pop();
+    //         chirps.reverse();
+    //         this.setState({ chirps });
+
+    //     } catch (error) {
+    //         console.log(error);
+    //     }
+    // }
+
     async componentDidMount() {
+        // this._getAllChirps
         try {
             let res = await fetch("/api/chirps");
-            let data = await res.json();
-            let chirps = Object['keys'](data).map(key => {
+            let data = await res.json();        //JSon converted to JS
+            let chirps = Object.keys(data).map(key => {
                 return {
                     id: key,
                     user: data[key].user,
@@ -36,37 +58,44 @@ class Home extends React.Component<IHomeProps, IHomeState {
             });
             chirps.pop();
             chirps.reverse();
-            this.setState({ chirps: data });
-
+            this.setState({ chirps });
         } catch (error) {
             console.log(error);
         }
     };
 
-    async handleClick(e) {
-        e.preventDefault();
-        //     fetch("/api/chirps")
-        //     .then(res => res.json())
-        //     .then(data => {this.setState({
 
-        //     })})
-        // } catch(error) {
-        //     console.log(error);
-        // }
-        await fetch('/api/chirps', {
-            method: 'POST',
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({ id: any, user: string, text: string })
-        })
-            .then(res => res.json())
-            .then(chirps => this.setState({ chirps }));
+    async handleClick(e: React.MouseEvent<HTMLButtonElement>) {
+        e.preventDefault();
+        // this._getAllChirps();
+        try {
+            await fetch('/api/chirps', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ user: this.state.user, text: this.state.text })
+            })
+            let res = await fetch('/api/chirps');
+            let data = await res.json();
+            let chirps = Object.keys(data).map(key => {
+                return {
+                    id: key,
+                    user: data[key].user,
+                    text: data[key].text
+                }
+            });
+            chirps.pop();
+            chirps.reverse();
+            this.setState({ chirps });
+        } catch (error) {
+            console.log(error);
+        };
+        this.setState({ user: '', text: '' });
     }
 
     render() {
-        let chirpFeed = this.state.chirps.map((chirp, id) => {
+        let chirpFeed = this.state.chirps.map((chirp) => {
             return <ChirpCard key={chirp.id} chirp={chirp} />
         })
 
@@ -79,16 +108,18 @@ class Home extends React.Component<IHomeProps, IHomeState {
                                 <h5 className="card-title">Start Chirpin'!</h5>
                                 <form className="form-group">
                                     <label>Username:</label>
-                                    <input className="form-control"
-                                        value={this.state.user}>
+                                    <input
+                                        className="form-control"
+                                        value={this.state.user}
                                         onChange={(e: React.ChangeEvent<HTMLInputElement>) => this.setState({ user: e.target.value })}
-                                    </input>
+                                    />
 
                                     <label>Chirp:</label>
-                                    <input className="form-control"
-                                        value={this.state.text}>
+                                    <input
+                                        className="form-control"
+                                        value={this.state.text}
                                         onChange={(e: React.ChangeEvent<HTMLInputElement>) => this.setState({ text: e.target.value })}
-                                    </input>
+                                    />
                                     <button onClick={(e) => this.handleClick(e)} className="btn btn-primary" type="submit">Chirp It!</button>
                                 </form>
                             </div>

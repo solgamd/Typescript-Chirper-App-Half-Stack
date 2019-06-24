@@ -53,9 +53,16 @@ router.get('/:id', (req, res) => {
     res.json(chirpstore.GetChirp(id))
 });
 
-router.post('/', (req, res) => {
+router.post('/', (req, res) => { 
     chirpstore.CreateChirp(req.body);
-    res.sendStatus(200);
+    res.sendStatus(200);            // Challenge: make this respond with chirps instead
+});
+
+router.put('/:id/admin', (req, res) => { 
+    let id = req.params.id;
+    let chirp = req.body;
+    chirpstore.UpdateChirp(id, chirp);
+    res.sendStatus(200);            
 });
 
 export default router;

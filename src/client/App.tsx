@@ -2,7 +2,7 @@ import * as React from 'react';
 import './scss/app';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import Home from './components/Home';
-import EditChirp from './components/EditChirp';
+import AdminOps from './components/AdminOps';
 
 //can export interfaces and use them elsewhere: export 
 interface IAppProps { }
@@ -18,7 +18,7 @@ export default class App extends React.Component<IAppProps, IAppState> {
                 <main className="container">
                     <Switch>
                         <Route exact path="/" component={Home} />
-                        <Route exact path="/:id" component={EditChirp} />
+                        <Route exact path="/:id/admin" component={AdminOps} />
                     </Switch>
                 </main>
             </Router>
