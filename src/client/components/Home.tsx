@@ -47,7 +47,7 @@ class Home extends React.Component<IHomeProps, IHomeState> {
     async componentDidMount() {
         // this._getAllChirps
         try {
-            let res = await fetch("/api/chirps");
+            let res = await fetch('/api/chirps');
             let data = await res.json();        //JSon converted to JS
             let chirps = Object.keys(data).map(key => {
                 return {

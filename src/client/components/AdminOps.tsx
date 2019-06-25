@@ -1,16 +1,14 @@
 import * as React from 'react';
 import { RouteComponentProps } from 'react-router';
 import { withRouter } from 'react-router-dom'; //needed to reroute back to Home?
-import { string } from 'prop-types';
 
-export interface IEditProps extends RouteComponentProps <{id: string}>{
-    
+export interface IEditProps extends RouteComponentProps<{ id: string }> {
+
 }
 export interface IEditState {
     chirp: {
-        id: string,
         user: string,
-        text: string
+        text: string,
     }[],
     user: string,
     text: string
@@ -23,47 +21,62 @@ class AdminOps extends React.Component<IEditProps, IEditState> {
         this.state = {
             chirp: [],
             user: '',
-            text: ''
-        }
+            text: '',
+        };
     }
 
     async componentDidMount() {
         let id = this.props.match.params.id;
+
         try {
-            let res = await fetch(`/api/chirps/${id}/admin`);
+            let res = await fetch(`/api/chirps/${id}`);
             let chirp = await res.json();
-            this.setState({ chirp });
+            this.setState({ user: this.state.user, text: this.state.text }); //Pulls user & text from the fetch res 'chirp'
+
         } catch (error) {
             console.log(error);
         };
     };
 
-    async updateChirp(e: React.MouseEvent<HTMLButtonElement>) { 
+    async updateChirp(e: React.MouseEvent<HTMLButtonElement>) {
         let id = this.props.match.params.id;
         e.preventDefault();
+
         try {
-            await fetch(`/api/chirps/${id}/admin`, {
+            await fetch(`/api/chirps/${id}`, {
                 method: 'PUT',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({ user: string, text: string })
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ user: this.state.user, text: this.state.text })
             })
-            this.setState({ user: this.state.user, text: this.state.text }); // Luke's solution? Change this somehow??
+            
+            // this.setState({ user: this.state.user, text: this.state.text }); // Luke's solution? Change this somehow??
+
         } catch (error) {
             console.log(error);
         }
         this.props.history.push('/'); //rerouting back to Home 
     }
 
-
     async deleteChirp(e: React.MouseEvent<HTMLButtonElement>) { // DELETE REQUEST
+        let id = this.props.match.params.id;
+
         e.preventDefault();
         alert(' delete button works!')
+        try {
+            await fetch(`/api/chirps/${id}`, {
+                method: 'DELETE',
+                // headers: { 'Content-Type': 'application/json' },
+                // body: JSON.stringify({ data })
+            })
+        } catch (error) {
+            console.log(error);
+        }
+        this.props.history.replace('/'); //rerouting back to Home 
     }
 
 
     render() {
+
         return (
             <section className="row">
                 <article className="col-md-6 offset-3">
@@ -74,16 +87,16 @@ class AdminOps extends React.Component<IEditProps, IEditState> {
                                 <label>Username:</label>
                                 <input
                                     className="form-control"
-                                    placeholder={this.props.match.params.}
+                                    value={this.state.user} // Doesn't work
                                     onChange={(e: React.ChangeEvent<HTMLInputElement>) => this.setState({ user: e.target.value })}
                                 />
                                 <label>Chirp:</label>
                                 <input
                                     className="form-control"
-                                    placeholder={text}
+                                    value={this.state.text} // Doesn't work
                                     onChange={(e: React.ChangeEvent<HTMLInputElement>) => this.setState({ text: e.target.value })}
                                 />
-                                <button onClick={(e) => this.updateChirp(e)} className="btn btn-primary m-1" type="submit">Edit</button>
+                                <button onClick={(e) => this.updateChirp(e)} className="btn btn-primary m-1" type="submit">Save Edit</button>
                                 <button onClick={(e) => this.deleteChirp(e)} className="btn btn-primary m-1" type="submit">Delete</button>
                             </form>
                         </div>
@@ -92,7 +105,6 @@ class AdminOps extends React.Component<IEditProps, IEditState> {
             </section>
         );
     }
-
 }
 
 export default AdminOps;

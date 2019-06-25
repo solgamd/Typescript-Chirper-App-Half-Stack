@@ -58,7 +58,7 @@ router.post('/', (req, res) => {
     res.sendStatus(200);            // Challenge: make this respond with chirps instead
 });
 
-router.put('/:id/admin', (req, res) => { 
+router.put('/:id', (req, res) => { 
     let id = req.params.id;
     let chirp = req.body;
     chirpstore.UpdateChirp(id, chirp);

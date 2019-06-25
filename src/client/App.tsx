@@ -18,7 +18,7 @@ export default class App extends React.Component<IAppProps, IAppState> {
                 <main className="container">
                     <Switch>
                         <Route exact path="/" component={Home} />
-                        <Route exact path="/:id/admin" component={AdminOps} />
+                        <Route exact path="/:id" component={AdminOps} />
                     </Switch>
                 </main>
             </Router>

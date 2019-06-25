@@ -17,7 +17,7 @@ const ChirpCard: React.SFC<IChirpCardProps> = (props) => {
                 <div className="card-body">
                     <h4 className="card-title">{props.chirp.user}</h4>
                     <p className="card-text">{props.chirp.text}</p>
-                    <Link to={`${id}/admin`} className="btn btn-primary shadow">Admin Options</Link>
+                    <Link to={`${id}`} className="btn btn-primary shadow">Admin Options</Link>
                 </div>
             </div>
         </article>
