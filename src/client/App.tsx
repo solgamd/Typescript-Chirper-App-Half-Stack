@@ -7,7 +7,6 @@ import AdminOps from './components/AdminOps';
 //can export interfaces and use them elsewhere: export 
 interface IAppProps { }
 interface IAppState { }
-// chirps: { id: number, user: string, text:string }[]
 
 export default class App extends React.Component<IAppProps, IAppState> {
 

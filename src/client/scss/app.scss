@@ -1,9 +1,17 @@
 
+$primary: #628395;
+$secondary: #5eb1bf;
+$info: #cdedf6;
+
 
 @import '../../../node_modules/bootstrap/scss/bootstrap.scss';
+
 
 
 .covalence-blue {
     color: #0091ea;
 }
 
+.card-title-main {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}

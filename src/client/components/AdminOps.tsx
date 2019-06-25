@@ -40,7 +40,6 @@ class AdminOps extends React.Component<IEditProps, IEditState> {
     async updateChirp(e: React.MouseEvent<HTMLButtonElement>) {
         let id = this.props.match.params.id;
         e.preventDefault();
-
         try {
             await fetch(`/api/chirps/${id}`, {
                 method: 'PUT',
@@ -54,11 +53,9 @@ class AdminOps extends React.Component<IEditProps, IEditState> {
         this.props.history.push('/'); //rerouting back to Home 
     }
 
-    async deleteChirp(e: React.MouseEvent<HTMLButtonElement>) { // DELETE REQUEST
+    async deleteChirp(e: React.MouseEvent<HTMLButtonElement>) { 
         let id = this.props.match.params.id;
-
         e.preventDefault();
-        alert(' delete button works!')
         try {
             await fetch(`/api/chirps/${id}`, {
                 method: 'DELETE',
@@ -83,13 +80,13 @@ class AdminOps extends React.Component<IEditProps, IEditState> {
                                 <label>Username:</label>
                                 <input
                                     className="form-control"
-                                    value={this.state.user} // Doesn't work
+                                    value={this.state.user} 
                                     onChange={(e: React.ChangeEvent<HTMLInputElement>) => this.setState({ user: e.target.value })}
                                 />
                                 <label>Chirp:</label>
                                 <input
                                     className="form-control"
-                                    value={this.state.text} // Doesn't work
+                                    value={this.state.text} 
                                     onChange={(e: React.ChangeEvent<HTMLInputElement>) => this.setState({ text: e.target.value })}
                                 />
                                 <button onClick={(id) => this.updateChirp(id)} className="btn btn-primary m-1" type="submit">Save Edit</button>
