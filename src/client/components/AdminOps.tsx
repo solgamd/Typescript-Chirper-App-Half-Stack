@@ -1,6 +1,5 @@
 import * as React from 'react';
 import { RouteComponentProps } from 'react-router';
-import { withRouter } from 'react-router-dom'; //needed to reroute back to Home?
 
 export interface IEditProps extends RouteComponentProps<{ id: string }> {
 
@@ -31,7 +30,7 @@ class AdminOps extends React.Component<IEditProps, IEditState> {
         try {
             let res = await fetch(`/api/chirps/${id}`);
             let chirp = await res.json();
-            this.setState({ user: this.state.user, text: this.state.text }); //Pulls user & text from the fetch res 'chirp'
+            this.setState({ user: chirp.user, text: chirp.text }); //Pulls user & text from the fetch res 'chirp'
 
         } catch (error) {
             console.log(error);
@@ -49,8 +48,6 @@ class AdminOps extends React.Component<IEditProps, IEditState> {
                 body: JSON.stringify({ user: this.state.user, text: this.state.text })
             })
             
-            // this.setState({ user: this.state.user, text: this.state.text }); // Luke's solution? Change this somehow??
-
         } catch (error) {
             console.log(error);
         }
@@ -65,18 +62,17 @@ class AdminOps extends React.Component<IEditProps, IEditState> {
         try {
             await fetch(`/api/chirps/${id}`, {
                 method: 'DELETE',
-                // headers: { 'Content-Type': 'application/json' },
-                // body: JSON.stringify({ data })
+                headers: { 'Content-Type': 'application/json' },
             })
+            
         } catch (error) {
             console.log(error);
         }
         this.props.history.replace('/'); //rerouting back to Home 
     }
 
-
     render() {
-
+  
         return (
             <section className="row">
                 <article className="col-md-6 offset-3">
@@ -96,7 +92,7 @@ class AdminOps extends React.Component<IEditProps, IEditState> {
                                     value={this.state.text} // Doesn't work
                                     onChange={(e: React.ChangeEvent<HTMLInputElement>) => this.setState({ text: e.target.value })}
                                 />
-                                <button onClick={(e) => this.updateChirp(e)} className="btn btn-primary m-1" type="submit">Save Edit</button>
+                                <button onClick={(id) => this.updateChirp(id)} className="btn btn-primary m-1" type="submit">Save Edit</button>
                                 <button onClick={(e) => this.deleteChirp(e)} className="btn btn-primary m-1" type="submit">Delete</button>
                             </form>
                         </div>

@@ -65,4 +65,11 @@ router.put('/:id', (req, res) => {
     res.sendStatus(200);            
 });
 
+router.delete('/:id', (req, res) => { 
+    let id = req.params.id;
+    // let chirp = req.body;
+    chirpstore.DeleteChirp(id);
+    res.sendStatus(200);            
+});
+
 export default router;
