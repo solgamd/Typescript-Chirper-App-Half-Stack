@@ -13,7 +13,6 @@ export default class App extends React.Component<IAppProps, IAppState> {
     render() {
         return (
             <Router>
-                {/* //Navbar */}
                 <main className="container">
                     <Switch>
                         <Route exact path="/" component={Home} />
